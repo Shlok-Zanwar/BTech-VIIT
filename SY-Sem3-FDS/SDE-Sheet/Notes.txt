@@ -1,0 +1,280 @@
+
+4, 5, 6 => Greedy, bruteforce, combinatrics, constructive algorithms 
+7 => dp
+8 => two-pointer, meet-in-the-middle
+11, 12 => Graphs, dfs and similar
+13, 16 => shortest paths, 
+Check DSU => https://cp-algorithms.com/data_structures/disjoint_set_union.html
+14, 15 => trees,  dsu
+17
+21
+
+
+Kadanes Algotrithms :- 
+Used for max sub array problem, when you have to iterate through an array and find the best / worst sum;
+Its O(n) solution.
+
+int best = 0, sum = 0;
+for (int k = 0; k < n; k++) {
+    sum = max(array[k],sum+array[k]);
+    best = max(best,sum);
+    
+}
+cout << best << "\n";
+
+---------------------------------------------------------------------------------------------------------------
+
+Sorting Algorithm;
+
+Use inbuit Sort
+
+vector<int> v = {1,2,3,4,5,2,3,4}
+sort(v.begin(), v.end())                             // Sorts in ascending
+sort(v.rbegin(), v.rend())                           // Sorts in descending
+sort(v.begin(), v.end(), greater<int>())             // Sorts in descending
+
+
+sort(v.begin(), v.end(), comparator)
+Making your Own Comparator()
+
+bool comparator(datatype a, datatype b){
+    return true (if a should be first) 
+}
+
+
+Eg :- bool greater<int>()(int a, int b){              // To Sort in descending
+    if(a >= b){
+        return true;
+    }
+    return false;
+}
+
+---------------------------------------------------------------------------------------------------------------
+
+Searching Algorithms :-
+
+int binarySearch(vector<int> arr, int toFind){
+    int start = 0, end = arr.size()-1, mid;
+
+    while(start <= end){
+        mid = (start + end) / 2;
+
+        if(arr[mid] == toFind){
+            return mid;
+        }
+
+        if(arr[mid] > toFind){
+            end = mid - 1;
+        }
+        else{
+            start = mid + 1;
+        }
+    }
+
+    return -1;
+}
+
+
+int jumpsAlgo(vector<int> arr, int toFind){
+    int len = arr.size();
+    int currIndex = 0, jumpLen;
+    for(jumpLen = len/2; jumpLen >= 1; jumpLen /= 2){
+        while( currIndex + jumpLen < len && arr[currIndex + jumpLen] < toFind ){
+            currIndex += jumpLen;
+        }
+    }
+
+    if(arr[currIndex + 1] == toFind){
+        Found at index (currIndex + 1)
+    }
+
+}
+
+
+----------------------------------------------
+
+Use inbuilt Functions :-
+
+lower_bound returns a pointer to the first array element whose value is atleast x.
+    auto k = lower_bound(array, array+n, x) - array;
+    auto k = lower_bound(v.begin(), v.end(), x) - v.begin();
+
+    To Check exactly if that element if there:-
+        auto k = lower_bound(array,array+n,x)-array;
+        if (k < n && array[k] == x) {
+            // x found at index k
+        }
+
+upper_bound returns a pointer to the first array element whose value is larger than x.
+    auto k = upper_bound(array, array+n, x) - array;
+    auto k = upper_bound(v.begin(), v.end(), x) - v.begin();
+
+equal_range returns both above pointers
+    auto r = equal_range(array, array+n, x);
+    cout << r.second - r.first << "\n";
+
+--------------------------------------------------
+Eg :- Arr = [1, 2, 3, 3, 4, 5];          
+Find = 3;
+lower_bound = 2;
+upper_bound = 4;
+
+Find = 5;
+lower_bound = 5;
+upper_bound = 6;
+
+Find = 6 +;
+lower_bound = 6;
+upper_bound = 6;
+
+
+To Find no of elements that are x
+    auto a = lower_bound(array, array+n, x);
+    auto b = upper_bound(array, array+n, x);
+    cout << b-a << "\n";
+
+
+---------------------------------------------------------------------------------------------------------------
+
+Data Structures;
+
+Vector :-
+    vector<datatype> v;                 // Create the vector
+    vector<int> v = {1, 2, 4, 5}        // Create vector size 4 with the following indexes;
+    vector<int> v(10)                   // Crete vector of len 10 {0,0,0, .....}
+    vector<int> v(10, 5)                // Crete vector of len 10 {5,5,5, .....}
+
+    v.push_back( datatype );            // Append to vector
+    v.pop_back();                       // Remove last element;
+    v.back();                           // Access last element;
+
+    v.insert(v.begin() + posi, element) // Add element to the posi index
+    v.erase(v.begin() + posi)           // remove element at posi index
+    v.clear()                           // Clear vector {}
+
+    Iterate
+    for(auto x : v){
+        cout << x << " ";
+    }
+
+------------------------
+
+String :-
+String is similar to vector;
+    str.substr(index, len)              // returns string that starts from index i and has length len.
+    str.find(someString)                // Return the first index where someString is found
+
+------------------------
+
+Set :-
+set is based on balanced binary tree and O(log n)
+unordered_set uses hashing and O(1)                     // Some functions of set are not there in unorderd set
+    
+    set<datatype> s;                    // Create the set
+    s.insert(5)                         // Insert 5 to the set;
+    s.count(5)                          // 1 if present - 0 if not              Will always return 1 (dosen't matter how many 5 you insert)
+    s.size()                            // No. of unique elements
+
+
+    multiset<datatype> ms               // Create multiset
+    ms.insert(5);
+    ms.insert(5);
+    ms.insert(5);
+    ms.count(5)                         // returns 3;
+    ms.erase(5)                         // Erases all 5             (ms.coutn() = 0)
+    ms.erase(ms.find(5))                // Erases one of the 5      (ms.count() = 2 )
+
+------------------------
+
+Map :-
+map is based on balanced binary tree and O(log n)
+unordered_map uses hashing and O(1)
+
+    map<string,int> m;
+    m["monkey"] = 4;
+    m["banana"] = 3;
+    m["harpsichord"] = 9;
+    cout << m["banana"] << "\n";        // Returns 3
+    m.erase("monkey)                    // Removes monkey from map (completely)
+
+    Note:
+    if we search for some element m["abc"]
+    m["abc"] will be created with default value (0)
+    i.e When we iterate through all the keys of the map ...... abc will also be present;
+
+    To check if a key is present
+    if (m.count("abc")) {               // This will not add abc to the map
+        // key exists
+    }
+
+    To iterate                          // Iteration return in sorted order
+    for (auto x : m) {
+        cout << x.first << " " << x.second << "\n";
+    }
+
+------------------------
+
+Deque
+A deque is a dynamic array whose size can be efficiently changed at both ends of
+the array. Like a vector, a deque provides the functions push_back and pop_back,
+but it also includes the functions push_front and pop_front which are not available in a vector.
+O(1) to insert and remove from both ends
+
+    deque<int> d;
+    d.push_back(5);                     // [5]
+    d.push_back(2);                     // [5,2]
+    d.push_front(3);                    // [3,5,2]
+    d.pop_back();                       // [3,5]
+    d.pop_front();                      // [5]
+
+------------------------
+
+Stack
+Only read, insert and pop top;
+    stack<int> s;
+    s.push(3);
+    s.push(2);
+    s.push(5);
+    cout << s.top();                    // 5
+    s.pop();
+    cout << s.top();                    // 2
+
+------------------------
+
+Queue 
+Insert at end, remove from begining
+    queue<int> q;
+    q.push(3);
+    q.push(2);
+    q.push(5);
+    cout << q.front();                  // 3
+    q.pop();
+    cout << q.front();                  // 2
+
+------------------------
+
+Priority Queue
+It uses heap data Structure .... By default sorted descending
+
+    priority_queue<int> q;
+    q.push(3);
+    q.push(5);
+    q.push(7);
+    q.push(2);
+    cout << q.top() << "\n";            // 7
+    q.pop();
+    cout << q.top() << "\n";            // 5
+    q.pop();
+    q.push(6);
+    cout << q.top() << "\n";            // 6
+
+    To create a queue which supports finding smallest elements;
+    priority_queue< int, vector<int>, greater<int> > q;
+
+---------------------------------------------------------------------------------------------------------------
+
+
+
+resume: "\nShlok Zanwar\nI am enthusiastic, dedicated and a hardworking person, with a desire to learn and explore the ever-evolving technologies of computer science.\n\n                                                                                               shlokzanwar14@gmail.com\n\n                                                                                                                    +91-9657867002\n                                                                                                                 Portfolio Website - https://shlok-zanwar.github.io/\n                                                                                                                     Github Profile - https://github.com/Shlok-Zanwar\n\nExperience ,\nIntegrated active monitoring Pvt Ltd - http://www.smartiam.in/\nJan 2021 - Present\nSoftware development Intern\nReact, Python, PostgresQL\n\n    CMS Portal\n  *  CMS is a multi-operator  realtime alert monitoring system used for E-surveillance of remote locations for safety and security. \n  *  Redesigned and normalized database schemas.\n  *  Designed custom messaging protocol using  Websockets  to handle alerts/events on the frontend in minimal latency.\n\n    RFID based Inventory management \n  *  Optimized complex  PostgresQL  queries that aggregate data from about 500,000 rows and  reduced the query response time by  more than  120% .\n  *  Created intuitive dashboards and graphical visualizations that represent  millions of data points  of inventory stock status.\n\n    Images Dashboard\n  *  Images dashboard is a CCTV image capture and audit platform.\n  *  Responsible for designing the architecture of the frontend code-base that includes setting up of  the project and configuring advanced state management using  redux  and routing in  ReactJS .\n  *  Developed an algorithm to access the metadata of thousands of images in  O(1)  time complexity.\n  *  Development of a Ticket Management module.\n  *  Automation of reports using ExcelJs that  saves 20+  man-hours of manual report creation everyday.\n\nTechnical Head ML Forum Viit\nAug 2021 - Aug 2022\n\n  *  Conducted 2 sessions on NLP and Model Deployment which received a  participation of 200+  students.\n\nEducation\nBTech Computer Science Engineering\nVishwakarma Institute of Information Technology (VIIT)\nCGPA - 9.79                                        06/2019 - 06/2023\n\n                                                                     Skills\n                                                                     Data Structures and Algorithms                     ReactJS\n                                                                     Web Development               C++                    Python\n\n                                                                     Javascript                    Redux                  SQL\n\n                                                                     PostgresQL                    Problem Solving\n\n                                                                     Teamwork\n\n                                                                     Key Projects\n\n                                                                     Code Rooms - https://code-rooms.github.io/#/about_us   🔗                                           Sep-2021\n                                                                      *  Code Rooms is a  learning management system  where teachers can seamlessly create classrooms, assignments and assess assignments.\n                                                                      *  It has advanced features such as  automated test cases  , in-app pdf-viewer all packed together in a user-friendly UI.\n                                                                      *  It is  deployed - https://code-rooms.github.io/#/about_us    and is currently being used and loved by\n                                                                         teachers and students in my college (  VIIT  ).\n                                                                      *  Technologies :- ReactJS, FastApi, SQL, Antd, Redux.\n\n                                                                     Dock Forms - https://github.com/Shlok-Zanwar/Dock-Forms   🔗\n                                                                                                                         June-2020\n                                                                       *  A form application for mainly school/college related applications such as conducting tests, surveys etc.\n                                                                      *  Contains an innovative feature  Rooms.\n                                                                      *  Rooms can be used to restrict forms to limited users.\n                                                                      *  Technologies  :- Python, Flask, Javascript, MySQL.\n\n                                                                     Shlok Zanwar Portfolio Website - https://shlok-zanwar.github.io/   🔗\n                                                                      *  This website is for hosting my Portfolio / Blogs / Apps.\n                                                                      *  More than a project this web-app is like a playground for me to develop and deploy new technologies / mini-apps.\n                                                                      *  Some of the apps deployed are :- \n                                                                         *  Binary Tree Visualizations  :- These are UI's to visualize the insert, delete and search operations on Binary Search Tree / Heap.\n                                                                         *  Pastebin  :-  A web application that allows users to upload and share text online.\n                                                                         *  TodoApp  :- A well designed todo application with features such as drag and drop, task-categorization.\n\n"
+
+
